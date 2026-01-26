@@ -117,6 +117,7 @@ fi
 
 ## Update operating system
 . update-ubuntu-release || :
+. update-debian-release || :
 . update-macos || :
 
 ## Update via system-wide package managers

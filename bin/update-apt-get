@@ -48,7 +48,7 @@ set -euf
 #   for overriding the general settings for individual packages.
 #
 # * full-upgrade performs the function of upgrade but may also remove installed
-#   packages if that is required in order to resolve a package conflict. 
+#   packages if that is required in order to resolve a package conflict.
 #
 # Notes:
 #
@@ -56,39 +56,21 @@ set -euf
 #   full-upgrade is merely an alias for the command dist-upgrade; however, we
 #   haven't seen a spec that promises that the two commands are guaranteed to
 #   behave identically. So we do both, just in case there's ever a difference.
-#
-# ## Sources
-#
-# A vanilla installation of Debian 12 code name "bookworm" has a configuration
-# file `/etc/apt/sources.list` with these lines:
-#
-# ```txt
-# deb http://deb.debian.org/debian bookworm main non-free-firmware
-# deb-src http://deb.debian.org/debian bookworm main non-free-firmware
-#
-# deb http://deb.debian.org/debian-security/ bookworm-security main non-free-firmware
-# deb-src http://deb.debian.org/debian-security/ bookworm-security main non-free-firmware
-#
-# deb http://deb.debian.org/debian bookworm-updates main non-free-firmware
-# deb-src http://deb.debian.org/debian bookworm-updates main non-free-firmware
-# ```
-#
-# This script updates the file from Debian 12 "bookworm" to Debian 13 "trixie".
 
 if command -v apt-get >/dev/null 2>&1; then
+    # Clean
     apt-get --quiet --yes autoclean
     apt-get --quiet --yes --purge autoremove
+    # Update
     apt-get --quiet --yes update
+    # Optional for some versions: get update-manager and update-manager-core
     apt-get --quiet --yes install update-manager
     apt-get --quiet --yes install update-manager-core
+    # Upgrade
     apt-get --quiet --yes upgrade --fix-broken --fix-missing
     apt-get --quiet --yes dist-upgrade --fix-broken --fix-missing
     apt-get --quiet --yes full-upgrade --fix-broken --fix-missing
-    apt-get --quiet --yes autoclean
-    apt-get --quiet --yes --purge autoremove
-    sed -i.bak 's/ bookworm / trixie /g; s/ bookworm-/ trixie-/g;'
-    apt-get --quiet --yes dist-upgrade --fix-broken --fix-missing
-    apt-get --quiet --yes full-upgrade --fix-broken --fix-missing
+    # Clean
     apt-get --quiet --yes autoclean
     apt-get --quiet --yes --purge autoremove
 fi

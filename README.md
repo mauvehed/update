@@ -22,6 +22,7 @@ When you run `update` the command will run many software updates and upgrades.
 * [`update-carthage`](bin/update-carthage): update Xcode Carthage pacakges - for macOS.
 * [`update-choco`](bin/update-choco): update choco Chocolatey packages - for Windows.
 * [`update-conda`](bin/update-conda): update conda packages - for Python package manager.
+* [`update-debian`](bin/update-debian): update Debian, including full upgrades for major versions.
 * [`update-dnf`](bin/update-dnf): update DNF - for Fedora Linux.
 * [`update-emerge`](bin/update-emerge): update emerge - for Gentoo Linux.
 * [`update-eopkg`](bin/update-eopkg): update eopkg - for Solus Linux.

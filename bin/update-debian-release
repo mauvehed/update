@@ -1,7 +1,7 @@
 #!/bin/sh
 set -euf
 
-# Apt package manager for Debian Linux, Ubuntu Linux, etc.
+# Update Debian, including doing major version upgrades
 #
 # If you want the system to force saying yes, use this setting:
 #
@@ -56,6 +56,28 @@ set -euf
 #   full-upgrade is merely an alias for the command dist-upgrade; however, we
 #   haven't seen a spec that promises that the two commands are guaranteed to
 #   behave identically. So we do both, just in case there's ever a difference.
+#
+# ## Sources
+#
+# A vanilla installation of Debian 13 code name "trixie" has a configuration
+# file `/etc/apt/sources.list` with these lines:
+#
+# ```txt
+# deb http://deb.debian.org/debian trixie main non-free-firmware
+# deb-src http://deb.debian.org/debian trixie main non-free-firmware
+#
+# deb http://deb.debian.org/debian-security/ trixie-security main non-free-firmware
+# deb-src http://deb.debian.org/debian-security/ trixie-security main non-free-firmware
+#
+# deb http://deb.debian.org/debian trixie-updates main non-free-firmware
+# deb-src http://deb.debian.org/debian trixie-updates main non-free-firmware
+# ```
+#
+# This script updates the file from Debian version-specific code names, such
+# as "trixie", to Debian "stable" which is always the current stable version.
+#
+# Some developers prefer Debian "testing" which has more-frequent updates
+# but may be less stable.
 
 if command -v apt >/dev/null 2>&1; then
     # Clean
@@ -66,6 +88,8 @@ if command -v apt >/dev/null 2>&1; then
     # Optional for some versions: get update-manager and update-manager-core
     apt --quiet --yes install update-manager
     apt --quiet --yes install update-manager-core
+    # Upgrade code name from Debian versions of the previous decade to "stable"
+    sed -E -i.bak 's/ (squeeze|wheezy|jessie|stretch|buster|bullseye|bookworm|trixie) / stable /g; s/ (squeeze|wheezy|jessie|stretch|buster|bullseye|bookworm|trixie)-/ stable-/g;' /etc/apt/sources.list
     # Upgrade
     apt --quiet --yes upgrade --fix-broken --fix-missing
     apt --quiet --yes dist-upgrade --fix-broken --fix-missing
