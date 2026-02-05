@@ -178,6 +178,7 @@ fi
 . update-npm-global || :
 . update-pnpm || :
 . update-pnpm-global || :
+. update-pnpm-package || :
 . update-yarn || :
 
 # Update repositories
